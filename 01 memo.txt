@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.*;
+public class MyClass {
+    static int[][] dp=new int[1002][1002];
+    static int knapsack(int[] val, int[] wt, int w, int n)
+    {
+        if(w==0||n==0)
+            return 0;
+        if(dp[w][n]!=-1)
+            return dp[w][n];
+        if(wt[n-1]>w)
+            return dp[w][n]=knapsack(val,wt,w,n-1);
+        else
+            return dp[w][n]=Math.max(val[n-1]+knapsack(val,wt,w-wt[n-1],n-1),knapsack(val,wt,w,n-1));
+    }
+    public static void main(String args[])throws IOException {
+      BufferedReader in=new BufferedReader(new InputStreamReader(System.in));
+      int t=Integer.parseInt(in.readLine());
+      while(t-->0)
+      {
+          int n=Integer.parseInt(in.readLine());
+          int w=Integer.parseInt(in.readLine());
+          String st[]=in.readLine().split(" ");
+          String str[]=in.readLine().split(" ");
+          int[] val=new int[n];
+          int[] wt=new int[n];
+          for(int i=0;i<n;i++)
+          {
+              val[i]=Integer.parseInt(st[i]);
+              wt[i]=Integer.parseInt(str[i]);
+          }
+          for (int[] row : dp) 
+            Arrays.fill(row, -1);
+          System.out.println(knapsack(val,wt,w,n));
+      }
+
+    //   System.out.println("Sum of x+y = " + z);
+    }
+}
